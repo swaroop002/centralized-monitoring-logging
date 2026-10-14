@@ -42,6 +42,16 @@ flowchart LR
 - **Logs** from everything above, labelled so a host, a service and a time
   range are one query away.
 
+## The logging library and the Loki pipeline
+
+The Python services did not log consistently, so I wrote a small logging
+library they all import: structured records with the service, tenant, request
+id and timing attached, written locally and shipped to Loki through the
+Promtail / Alloy pipeline I built. Because every request carries its duration,
+Loki doubles as a performance record — it is how the ~40% response-time gain
+of the expression engine's Polars rewrite was measured, and how slow tenants
+and queues are found during incidents.
+
 ## Design points
 
 - **Metrics and logs share labels**, so a Grafana panel and its logs line up.
