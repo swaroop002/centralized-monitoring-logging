@@ -30,7 +30,9 @@ flowchart LR
     LK --> GF
     PR --> AM[Alertmanager / Grafana alerting]
     AM --> ON[On-call notifications]
-    APP[Application metrics & structured logs] --> PR & LK
+    APP[Python services] -->|logging library:<br/>service · tenant · request id · duration| PT
+    APP -->|/metrics| PR
+    LK -->|request timings| PERF[Performance queries<br/>e.g. Polars rewrite: ~40% faster]
 ```
 
 ## What is collected
